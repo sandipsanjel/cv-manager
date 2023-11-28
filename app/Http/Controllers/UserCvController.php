@@ -12,7 +12,7 @@ class UserCvController extends Controller
     public function index()
     {
         $userCVs = UserCV::all();
-        return view('index', ['userCVs' => $userCVs]);
+        return view('admin/index', ['userCVs' => $userCVs]);
     }
     public function create()
     {
