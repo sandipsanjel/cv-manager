@@ -10,6 +10,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    <div class="mt-4">
+                        <a href="{{ route('user_cv.create') }}" class="text-blue-500 hover:underline">Upload your CV</a>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ route('user_cv.index') }}" class="text-blue-500 hover:underline">List of the user's CV</a>
+                    </div>
+
                 </div>
             </div>
         </div>
