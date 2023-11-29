@@ -19,14 +19,14 @@ class AdminMiddleware
         if (Auth::check()) {
             // admn role:1 
             // user role:0
-            if (Auth::user()->role == '1') {
+            if (Auth::user()->role == 1) {
                 return $next($request);
             } else {
-                return redirect('/dashboard')->with('message','Access Denied as you are not admin');
+                return redirect('/dashboard');
             }
         }
         else{
-            return redirect('/login')->with('message','Login to access the website info');
+            return redirect('/login');
 
         }
        
