@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserCvController;
+use App\Http\Controllers\admin\CVStatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,5 +40,8 @@ Route::post('/user-cv/store', [UserCVController::class, 'store'])->name('user_cv
 Route::prefix('admin')->middleware(['auth','authisadmin'])->group(function () {
     Route::get('/user-cv', [UserCVController::class, 'index'])->name('user_cv.index');
     Route::get('showusers/{id}', [UserCVController::class, 'show']);
+
+  // Store the CV status
+Route::post('/cv_status/store', [CVStatusController::class, 'store'])->name('cv_status.store');
 });
 
