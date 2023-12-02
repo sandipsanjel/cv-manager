@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CVstatus;
 use Illuminate\Http\Request;
 use App\Models\UserCV;
 
@@ -11,9 +12,21 @@ class UserCvController extends Controller
 {
     public function index()
     {
-        $userCVs = UserCV::all();
+        $userCVs = UserCV::with('cvStatus')->get();
+        // dd($userCVs);
         return view('admin/index', ['userCVs' => $userCVs]);
     }
+    // public function index(Request $request, $userId)
+    // {
+
+    //     // Find the user by ID
+    //     $userCv = UserCv::findOrFail($userId);
+
+    //     $cvStatus = $userCv->cvStatus ?? new CVstatus();
+    //     $cvStatus->status = $request->input('status');
+
+    //     $userCv->cvStatus()->save($cvStatus);
+    // }
     public function create()
     {
         return view('create');
@@ -21,17 +34,17 @@ class UserCvController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'phone' => 'required',
-        //     'email' => 'required|email',
-        //     'references' => 'required',
-        //     'technology' => 'required',
-        //     'level' => 'required|in:Junior,Mid,Senior',
-        //     'salary_expectation' => 'required',
-        //     'experience_years' => 'required',
-        //     'document' => 'required', 
-        // ]);
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'references' => 'required',
+            'technology' => 'required',
+            'level' => 'required|in:Junior,Mid,Senior',
+            'salary_expectation' => 'required',
+            'experience_years' => 'required',
+            'document' => 'required',
+        ]);
 
         // Store the form data in the database
         $userCV = new UserCV;
@@ -52,8 +65,13 @@ class UserCvController extends Controller
 
         $userCV->save();
 
-        return redirect()->route('user_cv.index')->with('success', 'User CV created successfully!');
+        return redirect()->route('user_cv.index');
     }
 
-   
+    public function show($id)
+    {
+        $userCVs = UserCV::findorfail($id);
+        // $CVstatus = $userCVs-> CVstatus;
+        return view('admin/editcv', compact('userCVs'));
+    }
 }

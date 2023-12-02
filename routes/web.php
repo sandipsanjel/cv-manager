@@ -37,11 +37,13 @@ Route::get('/user-cv/create', [UserCVController::class, 'create'])->name('user_c
 Route::post('/user-cv/store', [UserCVController::class, 'store'])->name('user_cv.store');
 // Route::get('/user-cv', [UserCVController::class, 'index'])->name('user_cv.index');
 
-Route::prefix('admin')->middleware(['auth','authisadmin'])->group(function () {
+
+//admin accessible routes
+Route::prefix('admin')->middleware(['auth', 'authisadmin'])->group(function () {
     Route::get('/user-cv', [UserCVController::class, 'index'])->name('user_cv.index');
-    Route::get('showusers/{id}', [UserCVController::class, 'show']);
-
-  // Store the CV status
-Route::post('/cv_status/store', [CVStatusController::class, 'store'])->name('cv_status.store');
+    Route::get('showusers/{id}', [UserCVController::class, 'show'])->name('user_cv.showusers');
+    // Route::post('/cv_status/store', [CVStatusController::class, 'store'])->name('cv_status.store');
+    Route::get('cv_status/edit/{id}', [CVStatusController::class, 'edit'])->name('cv_status.edit');
+    Route::post('cv_status/update/{id}', [CVStatusController::class, 'update'])->name('cv_status.update');
+    // Route::get('cv_status/delete/{id}', [CVStatusController::class, 'delete'])->name('cv_status.delete');
 });
-

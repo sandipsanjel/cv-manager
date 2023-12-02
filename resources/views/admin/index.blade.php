@@ -11,42 +11,57 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 125px;"
                     class="user-cvs-list">
                     @foreach ($userCVs as $userCV)
-                        <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"
-                            class="user-cv-item">
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Name:</strong> {{ $userCV->name }}
+                        <div class="user-cv-item">
+                            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"
+                                class="user-cv-item">
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="margin-right: 5px;">Name:</strong> {{ $userCV->name }}
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="margin-right: 5px;">Technology:</strong> {{ $userCV->technology }}
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="margin-right: 5px;">status:</strong>
+                                    {{ $userCV->cvStatus->status ?? 'N/A' }}
+                                </div>
+
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="margin-right: 5px;">Remarks:</strong>
+                                    {{ $userCV->cvStatus->remarks ?? 'N/A' }}
+                                </div>
+                                <style>
+                                    .user-cv-item {
+                                        position: relative;
+                                    }
+
+                                    .action-buttons {
+                                        position: absolute;
+                                        bottom: 0;
+                                        right: 0;
+                                        margin: 10px;
+                                    }
+
+                                    .edit-button,
+                                    .delete-button {
+                                        margin-right: 5px;
+                                        padding: 10px;
+                                        border: 1px solid #ddd;
+                                        border-radius: 5px;
+                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                        cursor: pointer;
+                                    }
+                                </style>
+                                <div class="action-buttons">
+                                    <button onclick="window.location.href='cv_status/edit/{{ $userCV->id }}'"
+                                        class="edit-button">
+                                        Change Status
+                                    </button>
+                                    {{-- <button onclick="window.location.href='cv_status/delete/{{ $userCV->id }}'"
+                                        class="edit-button">
+                                        Delete
+                                    </button> --}}
+                                </div>
                             </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Phone:</strong> {{ $userCV->phone }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Email:</strong> {{ $userCV->email }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">References:</strong> {{ $userCV->references }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Technology:</strong> {{ $userCV->technology }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Level:</strong> {{ $userCV->level }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Salary Expectation:</strong>
-                                {{ $userCV->salary_expectation }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Experience:</strong> {{ $userCV->experience_years }}
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Document:</strong>
-                                <img src="{{ $userCV->document }}" alt="User Document" style="max-width: 100%; height: auto;">
-                            </div>
-                            <div style="margin-bottom: 10px;">
-                                <strong style="margin-right: 5px;">Created At:</strong>
-                                {{ $userCV->created_at->format('Y-m-d H:i:s') }}
-                            </div>
-                        </div>
                     @endforeach
                 </div>
             @else

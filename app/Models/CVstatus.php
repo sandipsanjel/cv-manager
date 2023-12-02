@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class CVstatus extends Model
 {
     use HasFactory;
-    protected $table='cv_status';
+    protected $table = 'cv_status'; // This is especially useful if the table name doesn't follow Laravel's naming convention.
 
-    protected $fillable = ['status', 'interview_date', 'interviewers_list', 'remarks', 'document'];
+    // it is used to massassgined using the methods like create or update
+    protected $fillable = ['status', 'interview_date', 'interviewers_list', 'remarks', 'document', 'cv_id'];
+
+    public function cvDetail()
+    {
+        return $this->belongsTO(UserCV::class);
+    }
 }
