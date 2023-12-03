@@ -72,6 +72,6 @@ class UserCvController extends Controller
     {
         $userCVs = UserCV::findorfail($id);
         // $CVstatus = $userCVs-> CVstatus;
-        return view('admin/editcv', compact('userCVs'));
+        return view('admin/cvlist', compact('userCVs'));
     }
 }

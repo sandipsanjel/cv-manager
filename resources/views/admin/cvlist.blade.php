@@ -11,7 +11,6 @@
                 class="user-cvs-list">
                 <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"
                     class="user-cv-item">
-                   
                     <div style="margin-bottom: 10px;">
                         <strong style="margin-right: 5px;">Id:</strong> {{ $userCVs->id }}
                     </div>
@@ -44,18 +43,10 @@
                         <strong style="margin-right: 5px;">Document:</strong>
                         <img src="{{ $userCVs->document }}" alt="User Document" style="max-width: 100%; height: auto;">
                     </div>
-                    {{-- <div style="margin-bottom: 10px;">
-                        <strong style="margin-right: 5px;">Created At:</strong>
-                        {{ $userCVs->created_at->format('Y-m-d H:i:s') }}
-                    </div> --}}
 
-                    <div class="p-6">
+                    {{-- <div class="p-6">
                         <form action="{{ route('cv_status.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="mb-3">
-                                {{-- <label for="usercv_id" class="form-label">User CV ID:</label><label>{{ $userCVs->id }} </label> --}}
-                                {{-- <input type="text" name="usercv_id" class="form-control" required> --}}
-                            </div>
                             <div class="mb-4">
                                 <label for="status" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">
                                     Status:
@@ -73,6 +64,7 @@
                                 <label for="task" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">
                                     Upload Task:
                                 </label>
+                                <input type="number" value="{{ $userCVs->id }}" name="cv_id" hidden>
                                 <input type="file" name="task" id="task"
                                     class="form-input rounded-md shadow-sm">
                             </div>
@@ -109,7 +101,7 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
 
             </div>
