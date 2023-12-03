@@ -42,12 +42,23 @@ class CVStatusController extends Controller
         // Redirect back or to a success page
         return redirect()->route('user_cv.index');
     }
-
+    public function edit($id)
+    {
+        $cvInstance = USerCV::findorfail($id);
+        return view('admin/statuschange', compact('cvInstance'));
+    }
     public function update(Request $request, $id)
     {
-        try {
-            DB::beginTransaction();
+        // try {
+            // DB::beginTransaction();
+            // $cvInstance = new CVstatus;
             $cvInstance = CVstatus::where('cv_id', $id)->first();
+
+            // this is the condtion when request doesnot find he recodrd that matches the usrscv id and cvstatus id
+            if ($cvInstance === null) {
+                $cvInstance = new CVstatus();
+                $cvInstance->cv_id = $id;
+            }
             $cvInstance->status = $request->status;
             $cvInstance->cv_id = $request->cv_id;
             $cvInstance->interview_date = $request->interview_date;
@@ -58,31 +69,39 @@ class CVStatusController extends Controller
                 $cvInstance->task = $documentPath;
             }
             $cvInstance->save();
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
-        }
-        DB::commit();
-        return redirect('admin/user-cv');
+        // // } catch (Exception $e) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => $e->getMessage(),
+        //     ]);
+        // }
+        // DB::commit();
+        // dd($cvInstance);
+        return redirect('admin/user-cv')->with('success', 'Records updated successfully');
     }
-    public function edit($id)
-    {
-        $cvInstance = USerCV::findorfail($id);
-        return view('admin.statuschange', compact('cvInstance'));
-    }
-    public function delete($id)
-    {
-        $item = USerCV::find($id);
+    
+    // public function delete($id)
+    // {
+    //     try {
+    //         // Retrieve records from both tables
+    //         $userCv = UserCV::find($id);
+    //         $cvStatus = CVstatus::where('cv_id', $id)->first();
 
-        if (!$item) {
-            return response()->json(['error' => 'Item not found'], 404);
-        }
-    
-        $item->delete();
-    
-        return response()->json(['message' => 'Item deleted successfully']);
+    //         // Check if records exist
+    //         if (!$userCv || !$cvStatus) {
+    //             throw new \Exception("Records not found for cv_id: {$id}");
+    //         }
+
+    //         // Delete records
+    //         $userCv->delete();
+    //         $cvStatus->delete();
+
+
+    //         return redirect('admin/user-cv')->with('success', 'Records deleted successfully');
+    //     } catch (\Exception $e) {
+    //         return redirect('admin/user-cv')->with('error', $e->getMessage()) ->with('success', 'Records deleted successfully');
+    //     }
+    // }
        
     }
-}
+
