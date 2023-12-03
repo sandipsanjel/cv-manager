@@ -42,6 +42,7 @@
                                     }
 
                                     .edit-button,
+                                    .list-button,
                                     .delete-button {
                                         margin-right: 5px;
                                         padding: 10px;
@@ -56,10 +57,14 @@
                                         class="edit-button">
                                         Change Status
                                     </button>
-                                    {{-- <button onclick="window.location.href='cv_status/delete/{{ $userCV->id }}'"
-                                        class="edit-button">
+                                    <button onclick="window.location.href='cv_status/delete/{{ $userCV->id }}'"
+                                        class="delete-button">
                                         Delete
-                                    </button> --}}
+                                    </button>
+                                    <button onclick="window.location.href='showusers/{{ $userCV->id }}'"
+                                        class="list-button">
+                                        CVlist
+                                    </button>
                                 </div>
                             </div>
                     @endforeach

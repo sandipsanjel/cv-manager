@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('status', ['shortlisted', 'First Interview', 'Second Interview', 'Third Intervi ew', 'Hired', 'Rejected']);
             $table->string('task')->nullable();
             $table->unsignedBigInteger('cv_id');
-            $table->foreign('cv_id')->references('id')->on('user_c_v_s');
+            $table->foreign('cv_id')->references('id')->on('user_c_v_s')->onDelete('cascade');
             $table->date('interview_date');
             $table->string('interviewers_list');
             $table->string('remarks');

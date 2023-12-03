@@ -45,5 +45,5 @@ Route::prefix('admin')->middleware(['auth', 'authisadmin'])->group(function () {
     // Route::post('/cv_status/store', [CVStatusController::class, 'store'])->name('cv_status.store');
     Route::get('cv_status/edit/{id}', [CVStatusController::class, 'edit'])->name('cv_status.edit');
     Route::post('cv_status/update/{id}', [CVStatusController::class, 'update'])->name('cv_status.update');
-    // Route::get('cv_status/delete/{id}', [CVStatusController::class, 'delete'])->name('cv_status.delete');
+    Route::get('cv_status/delete/{id}', [CVStatusController::class, 'delete'])->name('cv_status.delete');
 });
