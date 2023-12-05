@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\UserCV;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserCVApiController extends Controller
 {
-    public function index()
+    public function apiindex()
     {
         // try {
         //     $userCVs = UserCV::with('cvStatus')->get();
@@ -50,7 +53,7 @@ class UserCVApiController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function apistore(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -84,5 +87,83 @@ class UserCVApiController extends Controller
         $userCV->save();
 
         return $this->sendSuccess('Success  ');
+    }
+
+    public function apiuserslist()
+    {
+
+        //     $user = User::all();
+
+        //     if ($user->count() == 0) {
+        //         $response =
+        //             [
+        //                 "message" => "Empty Database",
+        //                 "status" => 404,
+        //                 "statusText" => "error"
+        //             ];
+        //         return response()->json($response);
+        //     } else {
+        //         $response =
+        //             [
+        //                 "data" => $user->toArray(),
+        //                 "messaage" => "user list retrived sucessfully",
+        //                 "status" => 200,
+        //                 "statustext" => "OK"
+        //             ];
+        //         return response()->json($response);
+        //     }
+
+        $users = User::all();
+
+        return response()->json(['users' => $users], 200);
+    }
+
+
+    public function apiuserslogin(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            return response([
+                'msg' => 'incorrect username or password'
+            ], 401);
+        }
+
+        $token = $user->createToken('apiToken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+    public function apiuserssignup(Request $request)
+    {
+
+        $data = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        $user =  User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+        $token = $user->createToken('apiToken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token,
+        ];
+
+        return response($response, 201);
     }
 }
