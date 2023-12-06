@@ -34,7 +34,7 @@ class CVStatusController extends Controller
             ]
         );
 
-
+/*****Mail trigger *****/
         $user = UserCV::where('id', $request->id)->first();
         $cvInstance = CVstatus::where('cv_id', $request->cv_id)->first();
 
