@@ -16,17 +16,9 @@ class UserCvController extends Controller
         // dd($userCVs);
         return view('admin/index', ['userCVs' => $userCVs]);
     }
-    // public function index(Request $request, $userId)
-    // {
 
-    //     // Find the user by ID
-    //     $userCv = UserCv::findOrFail($userId);
 
-    //     $cvStatus = $userCv->cvStatus ?? new CVstatus();
-    //     $cvStatus->status = $request->input('status');
 
-    //     $userCv->cvStatus()->save($cvStatus);
-    // }
     public function create()
     {
         return view('create');
@@ -34,6 +26,7 @@ class UserCvController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'phone' => 'required',
@@ -43,7 +36,7 @@ class UserCvController extends Controller
             'level' => 'required|in:Junior,Mid,Senior',
             'salary_expectation' => 'required',
             'experience_years' => 'required',
-            'document' => 'required',
+            'document' => 'required|mimes:png,jpg,docx,pdf',
         ]);
 
         // Store the form data in the database
@@ -57,12 +50,16 @@ class UserCvController extends Controller
         $userCV->salary_expectation = $request->input('salary_expectation');
         $userCV->experience_years = $request->input('experience_years');
 
-        // Upload and store the document file
-        if ($request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('document');
-            $userCV->document = $documentPath;
-        }
 
+        // Upload and store the document file
+        if ($file = $request->file('document')) {
+            $request->validate([
+                'document' => 'mimes:jpeg,png,bmp,pdf',
+            ]);
+            $document_name = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/cv', $document_name);
+        }
+        $userCV->document = $document_name;
         $userCV->save();
 
         return redirect()->route('user_cv.index');
@@ -71,7 +68,6 @@ class UserCvController extends Controller
     public function show($id)
     {
         $userCVs = UserCV::findorfail($id);
-        // $CVstatus = $userCVs-> CVstatus;
-        return view('admin/cvlist', compact('userCVs'));
+        return view('admin/viewcv', compact('userCVs'));
     }
 }

@@ -22,16 +22,27 @@ class CVStatusController extends Controller
     }
     public function update(Request $request)
     {
+        if ($file = $request->file('task')) {
+            $request->validate([
+                'task' => 'mimes:jpeg,png,bmp,pdf',
+            ]);
+            
+            $task_name = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/task', $task_name);
+        }
 
-        CVstatus::updateOrCreate(
+     CVstatus::updateOrCreate(
             ['cv_id' => $request->id],
             [
                 'status' => $request->status,
+                'task' => $task_name, 
                 'interview_date' => $request->interview_date,
                 'interview_list' => $request->interview_list,
-                'remarks' => $request->remarks,
+                'remarks' => $request->remarks, 
 
             ]
+            
+
         );
 
 /*****Mail trigger *****/

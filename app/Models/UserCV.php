@@ -10,18 +10,19 @@ class UserCV extends Model
 {
     use HasFactory;
 
+
     // protected $fillable = [
-    //     'file_url',
+    //     // 'file_url',
     // ];
-    // protected $table = "user_c_v_s";
-    // protected $appends = ["file_url"];
-    // public function getFileUrlAttribute()
-    // {
-    //     if (!$this->document) {
-    //         return 'Invalid';
-    //     }
-    //     return asset('storage/documents/' . $this->document);
-    // }
+    protected $table = "user_c_v_s";
+    protected $appends = ["document_url"];
+    public function getDocumentUrlAttribute()
+    {
+        if (!$this->document) {
+            return null;
+        }
+        return asset('storage/cv/' . $this->document);
+    }
 
 
     public function cvStatus()
