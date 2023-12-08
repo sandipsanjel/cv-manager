@@ -70,4 +70,18 @@ class UserCvController extends Controller
         $userCVs = UserCV::findorfail($id);
         return view('admin/viewcv', compact('userCVs'));
     }
+
+public function search(Request $request)
+{
+    $userCVs  = UserCV::query();
+
+    // Check if the 'search' parameter is present in the request
+    if ($request->has('search')) {
+        $userCVs ->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    $userCVs = $userCVs ->get();
+
+    return view('dashboard', compact('userCVs'));
+}
 }
