@@ -22,7 +22,7 @@ class UserCV extends Model
             return null;
         }
         return asset('storage/cv/' . $this->document);
-    }
+    }   
 
 
     public function cvStatus()

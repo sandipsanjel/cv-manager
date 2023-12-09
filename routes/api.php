@@ -26,4 +26,6 @@ Route::get('users', [UserCVApiController::class, 'apiuserslist']);
 Route::post('login', [UserCVApiController::class, 'apiuserslogin']);
 Route::post('signup', [UserCVApiController::class, 'apiuserssignup']);
 Route::get('status/cv', [CVstatusApiController::class, 'apicvstatus']);
+Route::get('induser/cv/{id}', [CVstatusApiController::class, 'indusercv']);
 Route::post('update/cv/{id}', [CVstatusApiController::class, 'apiupdatecvstatus']);
+Route::post('delete/cv/{id}', [CVstatusApiController::class, 'apideletecvstatus']);

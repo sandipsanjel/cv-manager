@@ -1,7 +1,7 @@
     {{-- @extends('layouts.app') --}}
     <x-app-layout>
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
                 {{ 'Users CV list' }}
             </h2>
         </x-slot>
@@ -29,6 +29,14 @@
                                     <strong style="margin-right: 5px;">Remarks:</strong>
                                     {{ $userCV->cvStatus->remarks ?? 'N/A' }}
                                 </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="margin-right: 5px;">Assigned Interviewer:</strong>
+                                    {{ $userCV->cvStatus->interviewers_list ?? 'N/A' }}
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="margin-right: 5px;">Interview-Date :</strong>
+                                    {{ $userCV->cvStatus->interview_date ?? 'N/A' }}
+                                </div>
                                 <style>
                                     .user-cv-item {
                                         position: relative;
@@ -36,7 +44,7 @@
 
                                     .action-buttons {
                                         position: absolute;
-                                        bottom: 0;
+                                        top: 0;
                                         right: 0;
                                         margin: 10px;
                                     }
@@ -55,7 +63,7 @@
                                 <div class="action-buttons">
                                     <button onclick="window.location.href='cv_status/edit/{{ $userCV->id }}'"
                                         class="edit-button">
-                                        Change Status
+                                       Edit
                                     </button>
                                     <button onclick="window.location.href='cv_status/delete/{{ $userCV->id }}'"
                                         class="delete-button">
@@ -63,8 +71,11 @@
                                     </button>
                                     <button onclick="window.location.href='showusers/{{ $userCV->id }}'"
                                         class="list-button">
-                                        CVlist
+                                        view
                                     </button>
+                                    {{-- <a href="showupsers/{{ $userCV->id }}" class="list-button">
+                                        CV-list
+                                    </a> --}}
                                 </div>
                             </div>
                     @endforeach

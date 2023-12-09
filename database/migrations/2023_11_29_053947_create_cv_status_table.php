@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('cv_status', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['shortlisted', 'First Interview', 'Second Interview', 'Third Intervi ew', 'Hired', 'Rejected']);
-            $table->string('task')->nullable();
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('user_c_v_s')->onDelete('cascade');
+            $table->enum('status', ['shortlisted', 'First Interview', 'Second Interview', 'Third Interview', 'Hired', 'Rejected']);
+            $table->string('task')->nullable();
             $table->date('interview_date');
             $table->string('interviewers_list');
             $table->string('remarks');
+            
             $table->timestamps();
         });
     }

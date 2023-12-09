@@ -18,34 +18,35 @@ class CVStatusController extends Controller
     public function edit($id)
     {
         $cvInstance = USerCV::findorfail($id);
-        return view('admin/statuschange', ['cvInstance' => $cvInstance ]);
+        return view('admin/statuschange', ['cvInstance' => $cvInstance]);
     }
     public function update(Request $request)
     {
+        $task_name=null;
         if ($file = $request->file('task')) {
             $request->validate([
                 'task' => 'mimes:jpeg,png,bmp,pdf',
             ]);
-            
+
             $task_name = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/task', $task_name);
         }
 
-     CVstatus::updateOrCreate(
-            ['cv_id' => $request->id],
+
+        CVstatus::updateOrCreate(
+            ['cv_id' => $request->cv_id],
             [
                 'status' => $request->status,
-                'task' => $task_name, 
+                'task' => $task_name,
                 'interview_date' => $request->interview_date,
-                'interview_list' => $request->interview_list,
-                'remarks' => $request->remarks, 
+                'interviewers_list' => $request->interviewers_list,
+                'remarks' => $request->remarks,
 
             ]
-            
+
 
         );
-
-/*****Mail trigger *****/
+        /*****Mail trigger *****/
         $user = UserCV::where('id', $request->id)->first();
         $cvInstance = CVstatus::where('cv_id', $request->cv_id)->first();
 
@@ -65,18 +66,33 @@ class CVStatusController extends Controller
                 return response($e->getMessage());
             }
         }
-        return redirect('admin/user-cv');
-    }
 
+
+        if ($cvInstance->status == 'Rejected') {
+            try {
+                $detials = [
+                    'user' => $user->name,
+                    'technology' => $user->technology,
+                    'status' => $cvInstance->status,
+
+                ];
+                Mail::to($user->email)->send(new \App\Mail\Rejected($detials));
+            } catch (Exception $e) {
+                return response($e->getMessage());
+            }
+
+        }
+        return redirect('admin/user-cv');
+
+    }
     public function delete($id)
     {
-            $userCv = UserCV::find($id);
-            $cvStatus = CVstatus::where('cv_id', $id)->first();
+        $userCv = UserCV::find($id);
+        $cvStatus = CVstatus::where('cv_id', $id)->first();
 
-                $userCv->delete();
-                $cvStatus->delete();
+        $userCv->delete();
+        $cvStatus->delete();
 
-                return redirect('admin/user-cv');
+        return redirect('admin/user-cv');
     }
-        
 }

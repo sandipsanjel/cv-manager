@@ -11,14 +11,16 @@ class CVstatus extends Model
     use HasFactory;
     protected $table = 'cv_status'; 
 
+    //this method is used to dynamically generate the url for resources associated with the model
      protected $appends=['document_url'];
 
-    public function getDocumentUrlAttribute(){
+    public function getDocumentUrlAttribute(){ //accessor metod allows to calculate the value for document_url
 
         if(!$this->task){
             return null;
 
         }
+        //if decument attribute is set it returns the url using asset function
         return asset('storage/task'.$this->task);
     }
     protected $fillable = ['status', 'task','interview_date', 'interviewers_list', 'remarks', 'document', 'cv_id'];

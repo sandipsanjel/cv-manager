@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Route::get('/dashboard', function () {
@@ -41,6 +41,7 @@ Route::post('/user-cv/store', [UserCVController::class, 'store'])->name('user_cv
 //admin accessible routes
 Route::prefix('admin')->middleware(['auth', 'authisadmin'])->group(function () {
     Route::get('/user-cv', [UserCVController::class, 'index'])->name('user_cv.index');
+    Route::get('/dashboard', [UserCVController::class, 'search'])->name('user_cv.search');
     Route::get('showusers/{id}', [UserCVController::class, 'show'])->name('user_cv.showusers');
     // Route::post('/cv_status/store', [CVStatusController::class, 'store'])->name('cv_status.store');
     Route::get('cv_status/edit/{id}', [CVStatusController::class, 'edit'])->name('cv_status.edit');

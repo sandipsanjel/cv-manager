@@ -14,41 +14,12 @@ class UserCVApiController extends Controller
 {
     public function apiindex()
     {
-        // try {
-        //     $userCVs = UserCV::with('cvStatus')->get();
-        //     // dd($userCVs);
-        //     return $this->sendResponse($userCVs, 'Success');
-        // } catch (Exception $e) {
-        //     return $this->sendError($e->getMessage());
-        // }
-
-        $cvs = UserCV::orderByDesc('id')->get();
-
-
-        if ($cvs->count() == 0) {
-
-            $response = [
-                "message" => "Empty Database",
-                "status" => 404,
-                "statusText" => "error"
-            ];
-            return response()->json($response);
-        } else {
-
-            $response = [
-                [
-                    "data" => "",
-                    "success" => true,
-                ],
-                [
-                    "data" => $cvs->toArray(),
-                    "message" => "Cv list retrieved successfully.",
-                    "status" => 200,
-                    "statusText" => "OK"
-                ]
-            ];
-
-            return response()->json($response);
+        try {
+            $userCVs = UserCV::with('cvStatus')->get();
+            // dd($userCVs);
+            return $this->sendResponse($userCVs, 'Success');
+        } catch (Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
@@ -67,7 +38,6 @@ class UserCVApiController extends Controller
 
         ]);
 
-        // Store the form data in the database
         $userCV = new UserCV;
         $userCV->name = $request->input('name');
         $userCV->phone = $request->input('phone');
@@ -78,77 +48,68 @@ class UserCVApiController extends Controller
         $userCV->salary_expectation = $request->input('salary_expectation');
         $userCV->experience_years = $request->input('experience_years');
 
-        // Upload and store the document file
-        if ($request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('document');
-            $userCV->document = $documentPath;
+        if ($file = $request->file('document')) {
+            $request->validate([
+                'document' => 'mimes:jpeg,png,bmp,pdf',
+            ]);
+            $document_name = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/cv', $document_name);
         }
+        $userCV->document = $document_name;
 
         $userCV->save();
 
-        return $this->sendSuccess('Success  ');
+
+        return $this->sendSuccess('Success');
     }
 
     public function apiuserslist()
     {
 
-        //     $user = User::all();
-
-        //     if ($user->count() == 0) {
-        //         $response =
-        //             [
-        //                 "message" => "Empty Database",
-        //                 "status" => 404,
-        //                 "statusText" => "error"
-        //             ];
-        //         return response()->json($response);
-        //     } else {
-        //         $response =
-        //             [
-        //                 "data" => $user->toArray(),
-        //                 "messaage" => "user list retrived sucessfully",
-        //                 "status" => 200,
-        //                 "statustext" => "OK"
-        //             ];
-        //         return response()->json($response);
-        //     }
-
-        $users = User::all();
-
-        return response()->json(['users' => $users], 200);
+        try {
+            $users = User::all();
+            return $this->sendResponse($users, 'Success');
+        } catch (Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
     }
 
 
     public function apiuserslogin(Request $request)
     {
-        $data = $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string'
-        ]);
+        try {
+            $data = $request->validate([
+                'email' => 'required|string',
+                'password' => 'required|string'
+            ]);
 
-        $user = User::where('email', $data['email'])->first();
+            $user = User::where('email', $data['email'])->first();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            return response([
-                'msg' => 'incorrect username or password'
-            ], 401);
+            if (!$user || !Hash::check($data['password'], $user->password)) {
+                return response([
+                    'msg' => 'incorrect username or password'
+                ], 401);
+            }
+
+            $token = $user->createToken('apiToken')->plainTextToken;
+
+            $response = [
+                'user' => $user,
+                'token' => $token
+            ];
+
+            return $this->sendResponse($response, 'success');
+        } catch (Exception $e) {
+            return $this->sendError($e->getMessage());
         }
-
-        $token = $user->createToken('apiToken')->plainTextToken;
-
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
     }
+
     public function apiuserssignup(Request $request)
     {
 
         $data = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|unique:table,column,except,id',
             'password' => 'required|string'
         ]);
 
