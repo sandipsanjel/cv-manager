@@ -68,10 +68,10 @@
                                 </label>
                                 <textarea name="remarks" id="remarks" class="form-textarea rounded-md shadow-sm"></textarea>
                             </div>
-                            <div class="mt-6">
-                                <button type="submit" class="bg-blue-500 text-black rounded-md px-4 py-2">
+                            <x-primary-button class="ml-3">
                                     Create CV Status
-                                </button>
+                            </x-primary-button>                                
+                             
                             </div>
                         </form>
                     </div>

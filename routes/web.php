@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';   
 
 
 Route::get('/user-cv/create', [UserCVController::class, 'create'])->name('user_cv.create');
@@ -41,9 +41,7 @@ Route::post('/user-cv/store', [UserCVController::class, 'store'])->name('user_cv
 //admin accessible routes
 Route::prefix('admin')->middleware(['auth', 'authisadmin'])->group(function () {
     Route::get('/user-cv', [UserCVController::class, 'index'])->name('user_cv.index');
-    Route::get('/dashboard', [UserCVController::class, 'search'])->name('user_cv.search');
     Route::get('showusers/{id}', [UserCVController::class, 'show'])->name('user_cv.showusers');
-    // Route::post('/cv_status/store', [CVStatusController::class, 'store'])->name('cv_status.store');
     Route::get('cv_status/edit/{id}', [CVStatusController::class, 'edit'])->name('cv_status.edit');
     Route::post('cv_status/update/{id}', [CVStatusController::class, 'update'])->name('cv_status.update');
     Route::get('cv_status/delete/{id}', [CVStatusController::class, 'delete'])->name('cv_status.delete');

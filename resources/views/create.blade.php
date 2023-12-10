@@ -64,10 +64,13 @@
                         <label for="document" class="block text-gray-700 text-sm font-bold mb-2">Document (PDF):</label>
                         <input type="file" name="document" id="document" accept=".pdf" class="border rounded w-full py-2 px-3">
                     </div>
-
+{{-- 
                     <div class="mb-4">
                         <button type="submit" class="bg-blue-500 text-black py-2 px-4 rounded">Create CV</button>
-                    </div>
+                    </div> --}}
+                    <x-primary-button class="ml-3">
+                        Upload CV
+                    </x-primary-button>
                 </form>
             </div>
         </div>

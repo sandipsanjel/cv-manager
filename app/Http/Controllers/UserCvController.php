@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CVstatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\UserCV;
 
@@ -10,12 +11,26 @@ use App\Models\UserCV;
 
 class UserCvController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $userCVs = UserCV::with('cvStatus')->get();
-        // dd($userCVs);
-        return view('admin/index', ['userCVs' => $userCVs]);
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            // $userCVs = UserCV::where('name' , 'like', "%$search%")->orwhere('email', 'like', "%$search%")->get();
+            $userCVs = UserCV::where('name', 'like', "%$search%")
+                ->orWhereHas('cvStatus', function ($query) use ($search) {
+                    $query->where('status', 'like', "%$search%");
+                })
+                ->get();
+        } else {
+            $userCVs = UserCV::with('cvstatus')->get();
+        }
+        $data = compact('userCVs', 'search');
+        return view('/admin/index')->with($data);
     }
+    // $userCVs = UserCV::with('cvStatus')->get();
+    // dd($userCVs);
+    // return view('admin/index', ['userCVs' => $userCVs]);
+
 
 
 
@@ -71,17 +86,5 @@ class UserCvController extends Controller
         return view('admin/viewcv', compact('userCVs'));
     }
 
-public function search(Request $request)
-{
-    $userCVs  = UserCV::query();
-
-    // Check if the 'search' parameter is present in the request
-    if ($request->has('search')) {
-        $userCVs ->where('name', 'like', '%' . $request->search . '%');
-    }
-
-    $userCVs = $userCVs ->get();
-
-    return view('dashboard', compact('userCVs'));
-}
+    
 }

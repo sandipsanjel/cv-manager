@@ -1,9 +1,20 @@
     {{-- @extends('layouts.app') --}}
     <x-app-layout>
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
-                {{ 'Users CV list' }}
-            </h2>
+            <div class="flex items-center justify-between">
+                <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
+                    {{ 'Users CV list' }}
+                </h2>
+                <form class="col-9 flex items-center">
+                    <input type="text" name="search" placeholder="name or status" value="{{$search}}">
+                    <x-primary-button class="ml-3">
+                        <div type="submit">Search</div>
+                    </x-primary-button>
+                    <x-primary-button class="ml-3">
+                        <a href="{{ route('user_cv.index') }}">Refresh</a>
+                    </x-primary-button>
+                </form>
+            </div>
         </x-slot>
 
         <div style="width: 100%; margin: 20px;" class="user-cvs-container">
