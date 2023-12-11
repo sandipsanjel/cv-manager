@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\CVstatus;
 use App\Models\UserCV;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+
 
 
 
@@ -56,7 +58,71 @@ class CVstatusApiController extends Controller
                     'remarks' => $request->remarks,
                 ]
             );
-          
+            $user = UserCV::where('id', $request->id)->first();
+            $cvInstance = CVstatus::where('cv_id', $request->cv_id)->first();
+    
+            if ($cvInstance->status == 'shortlisted') {
+                try {
+                    $data = [
+                        'user' => $user->name,
+                        'technology' => $user->technology,
+                        'status' => $cvInstance->status,
+    
+    
+                    ];
+                    Mail::to($user->email)->send(new \App\Mail\Shortlisted($data));
+                } catch (Exception $e) {
+                    return response($e->getMessage());
+                }
+            }
+    
+            if ($cvInstance->status == 'First Interview' || 'Second Interview' || 'Third Interview') {
+                try {
+                    $data = [
+                        'user' => $user->name,
+                        'technology' => $user->technology,
+                        'status' => $cvInstance->status,
+                        'interview_date' => $cvInstance->interview_date,
+                        'interviewers_list' => $cvInstance->interviewers_list,
+                        'task' => $cvInstance->$task_name,
+    
+                    ];
+    
+                    Mail::to($user->email)->send(new \App\Mail\Interview($data));
+                } catch (Exception $e) {
+                    return response($e->getMessage());
+                }
+            }
+            if ($cvInstance->status == 'Hired') {
+                try {
+                    $data = [
+                        'user' => $user->name,
+                        'technology' => $user->technology,
+                        'status' => $cvInstance->status,
+    
+                    ];
+    
+                    Mail::to($user->email)->send(new \App\Mail\Hired($data));
+                } catch (Exception $e) {
+                    return response($e->getMessage());
+                }
+            }
+    
+    
+            if ($cvInstance->status == 'Rejected') {
+                try {
+                    $data = [
+                        'user' => $user->name,
+                        'technology' => $user->technology,
+                        'status' => $cvInstance->status,
+    
+                    ];
+                    Mail::to($user->email)->send(new \App\Mail\Rejected($data));
+                } catch (Exception $e) {
+                    return response($e->getMessage());
+                }
+            }
+    
 
             return response()->json(['message' => 'CVstatus updated  successfully']);
         } catch (Exception $e) {
