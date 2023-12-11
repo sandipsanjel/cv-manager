@@ -16,11 +16,11 @@ class Hired extends Mailable
     /**
      * Create a new message instance.
      */
-    public $detials;
+    public $data;
 
-    public function __construct($detials)
+    public function __construct($data)
     {
-        $this->detials = $detials;
+        $this->data = $data;
     }
 
     // public function build()
@@ -45,10 +45,12 @@ class Hired extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
             view: 'mail.hired',
-            with: ['details' => $this->detials],
+            with: ['details' => $this->data],
         );
+
     }
 
     /**

@@ -22,7 +22,7 @@ class CVStatusController extends Controller
     }
     public function update(Request $request)
     {
-        $task_name=null;
+        $task_name = null;
         if ($file = $request->file('task')) {
             $request->validate([
                 'task' => 'mimes:jpeg,png,bmp,pdf',
@@ -50,18 +50,48 @@ class CVStatusController extends Controller
         $user = UserCV::where('id', $request->id)->first();
         $cvInstance = CVstatus::where('cv_id', $request->cv_id)->first();
 
-        if ($cvInstance->status == 'Hired') {
+        if ($cvInstance->status == 'shortlisted') {
             try {
-                $detials = [
+                $data = [
+                    'user' => $user->name,
+                    'technology' => $user->technology,
+                    'status' => $cvInstance->status,
+
+
+                ];
+                Mail::to($user->email)->send(new \App\Mail\Shortlisted($data));
+            } catch (Exception $e) {
+                return response($e->getMessage());
+            }
+        }
+
+        if ($cvInstance->status == 'First Interview' || 'Second Interview' || 'Third Interview') {
+            try {
+                $data = [
                     'user' => $user->name,
                     'technology' => $user->technology,
                     'status' => $cvInstance->status,
                     'interview_date' => $cvInstance->interview_date,
                     'interviewers_list' => $cvInstance->interviewers_list,
+                    'task' => $cvInstance->$task_name,
 
                 ];
 
-                Mail::to($user->email)->send(new \App\Mail\Hired($detials));
+                Mail::to($user->email)->send(new \App\Mail\Interview($data));
+            } catch (Exception $e) {
+                return response($e->getMessage());
+            }
+        }
+        if ($cvInstance->status == 'Hired') {
+            try {
+                $data = [
+                    'user' => $user->name,
+                    'technology' => $user->technology,
+                    'status' => $cvInstance->status,
+
+                ];
+
+                Mail::to($user->email)->send(new \App\Mail\Hired($data));
             } catch (Exception $e) {
                 return response($e->getMessage());
             }
@@ -70,20 +100,19 @@ class CVStatusController extends Controller
 
         if ($cvInstance->status == 'Rejected') {
             try {
-                $detials = [
+                $data = [
                     'user' => $user->name,
                     'technology' => $user->technology,
                     'status' => $cvInstance->status,
 
                 ];
-                Mail::to($user->email)->send(new \App\Mail\Rejected($detials));
+                Mail::to($user->email)->send(new \App\Mail\Rejected($data));
             } catch (Exception $e) {
                 return response($e->getMessage());
             }
-
         }
-        return redirect('admin/user-cv');
 
+        return redirect('admin/user-cv');
     }
     public function delete($id)
     {

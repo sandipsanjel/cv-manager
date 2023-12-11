@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Rejected extends Mailable
+class shortlisted extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class Rejected extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rejected',
+            subject: 'shortlisted',
         );
     }
 
@@ -40,7 +40,7 @@ class Rejected extends Mailable
     {
 
         return new Content(
-            view: 'mail.rejected',
+            view: 'mail.shortlisted',
             with: ['details' => $this->data],
         );
 

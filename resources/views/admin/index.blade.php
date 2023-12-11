@@ -6,7 +6,7 @@
                     {{ 'Users CV list' }}
                 </h2>
                 <form class="col-9 flex items-center">
-                    <input type="text" name="search" placeholder="name or status" value="{{$search}}">
+                    <input type="text" name="search" placeholder="name or status" value="{{ $search }}">
                     <x-primary-button class="ml-3">
                         <div type="submit">Search</div>
                     </x-primary-button>
@@ -74,13 +74,14 @@
                                 <div class="action-buttons">
                                     <button onclick="window.location.href='cv_status/edit/{{ $userCV->id }}'"
                                         class="edit-button">
-                                       Edit
+                                        Edit
                                     </button>
                                     <button onclick="window.location.href='cv_status/delete/{{ $userCV->id }}'"
                                         class="delete-button">
                                         Delete
                                     </button>
-                                    <button onclick="window.location.href='showusers/{{ $userCV->id }}'"
+                                    <button
+                                        onclick="window.location.href='{{ route('user_cv.showusers', ['id' => $userCV->id]) }}'"
                                         class="list-button">
                                         view
                                     </button>
