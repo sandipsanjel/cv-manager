@@ -13,24 +13,24 @@ class UserCvController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request['search'] ?? "";
-        if ($search != "") {
-            // $userCVs = UserCV::where('name' , 'like', "%$search%")->orwhere('email', 'like', "%$search%")->get();
-            $userCVs = UserCV::where('name', 'like', "%$search%")
-                ->orWhereHas('cvStatus', function ($query) use ($search) {
-                    $query->where('status', 'like', "%$search%");
-                })
-                ->get();
-        } else {
-            $userCVs = UserCV::with('cvstatus')->get();
-        }
-        $data = compact('userCVs', 'search');
-        return view('/admin/index')->with($data);
-    }
-    // $userCVs = UserCV::with('cvStatus')->get();
+        // $search = $request['search'] ?? "";
+        // if ($search != "") {
+        //     // $userCVs = UserCV::where('name' , 'like', "%$search%")->orwhere('email', 'like', "%$search%")->get();
+        //     $userCVs = UserCV::where('name', 'like', "%$search%")
+        //         ->orWhereHas('cvStatus', function ($query) use ($search) {
+        //             $query->where('status', 'like', "%$search%");
+        //         })
+        //         ->get();
+        // } else {
+        //     $userCVs = UserCV::with('cvstatus')->get();
+        // }
+        // $data = compact('userCVs', 'search');
+        // return view('/admin/index')->with($data);
+    $userCVs = UserCV::with('cvStatus')->get();
     // dd($userCVs);
-    // return view('admin/index', ['userCVs' => $userCVs]);
+    return view('admin/index', ['userCVs' => $userCVs]);
 
+    }
 
 
 
