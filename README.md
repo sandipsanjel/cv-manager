@@ -1,6 +1,6 @@
 # CV-Manager
 
-CV Manager app where users can log in and upload a CV for a ceratin job and HR/Admin can review change status and send mail Haired/Interview/Shortlisted or Rejected accordingly.
+CV Manager app where users can log in and upload a CV for a certain job and HR/Admin can review change status and send mail Haired/Interview/Shortlisted or Rejected accordingly.
 
 ## Installation
 
