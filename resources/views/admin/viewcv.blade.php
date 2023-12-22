@@ -1,8 +1,7 @@
-    {{-- @extends('layouts.app') --}}
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
-                {{ __('Create CV Status') }}
+                {{ __('Users CV') }}
             </h2>
         </x-slot>
 
@@ -39,29 +38,13 @@
                     <div style="margin-bottom: 10px;">
                         <strong style="margin-right: 5px;">Experience:</strong> {{ $userCVs->experience_years }}
                     </div>
-                    {{-- <x-primary-button class="ml-3" id="postYourAdd" onclick="postYourAdd()">
-                        {{ __('VIEW CV') }} &nbsp;<i class="fa fa-eye"></i>
-                    </x-primary-button> --}}
-
                 </div>
             </div>
 
         </div>
-        <div class="row justify-content-center p-4" >
-            <iframe  src="{{ asset('storage/cv/' . $userCVs['document']) }}"  
-                height="1000" width="100%"></iframe>
+        <div class="row justify-content-center p-4">
+            <iframe src="{{ asset('storage/cv/' . $userCVs['document']) }}" height="1000" width="100%"></iframe>
         </div><br><br>
-
-        </div>
-        {{-- <script>
-            function postYourAdd() {
-                var iframe = $("#forPostyouradd");
-                iframe.attr("src", iframe.data("src"));
-                iframe.removeClass("hidden");
-                $("#removeYourAdd").removeClass("hidden");
-                $("#postYourAdd").addClass("hidden");
-            }
-        </script> --}}
 
 
     </x-app-layout>

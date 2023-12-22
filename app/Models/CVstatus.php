@@ -14,7 +14,7 @@ class CVstatus extends Model
     //this method is used to dynamically generate the url for resources associated with the model
      protected $appends=['document_url'];
 
-    public function getDocumentUrlAttribute(){ //accessor metod allows to calculate the value for document_url
+    public function getDocumentUrlAttribute(){ //accessor method allows to calculate the value for document_url
 
         if(!$this->task){
             return null;

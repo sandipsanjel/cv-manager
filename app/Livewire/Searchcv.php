@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use Livewire\Attributes\Url;
 use App\Models\UserCV;
 use Livewire\Component;
@@ -13,7 +14,8 @@ class Searchcv extends Component
     public $search = '';
     public $cvs;
 
-    public function search(){
+    public function search()
+    {
 
         $this->resetdata();
     }
@@ -24,13 +26,8 @@ class Searchcv extends Component
     // }
     public function render()
     {
-        if (!empty('search')) {
-            $this->cvs = UserCV::where('name', 'like', '%' . $this->search . '%')->get();
-        } else {
-            $this->cvs = null;
-        }
+        $this->cvs = UserCV::where('name', 'like', '%' . $this->search . '%')->get();
 
         return view('livewire.searchcv');
     }
-    
 }

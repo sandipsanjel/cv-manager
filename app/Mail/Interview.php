@@ -39,11 +39,16 @@ class Interview extends Mailable
      */
     public function content(): Content
     {
+        // $taskFilePcoath = public_path('public/task' . $this->data['task']);
+
         return new Content(
             view: 'mail.interview',
-            with:['details'=>$this->data],
-        );
-    }
+            with:['details'=>$this->data
+        ],
+);
+       
+}
+
 
     /**
      * Get the attachments for the message.
@@ -52,6 +57,6 @@ class Interview extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [ ];
     }
 }

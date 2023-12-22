@@ -23,7 +23,7 @@ class CVstatusApiController extends Controller
             return $this->sendResponse($userCVs, "success");
         } catch (Exception $e) {
             return $this->sendError($e->getmessage());
-        }
+        }   
     }
 
     public function indusercv($id){
@@ -54,7 +54,7 @@ class CVstatusApiController extends Controller
                     'status' => $request->status,
                     'task' => $task_name,
                     'interview_date' => $request->interview_date,
-                    'interview_list' => $request->interview_list,
+                    'interviewers_list' => $request->interviewers_list,
                     'remarks' => $request->remarks,
                 ]
             );

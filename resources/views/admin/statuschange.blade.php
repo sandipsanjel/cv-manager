@@ -58,8 +58,8 @@
                                     class="form-select rounded-md shadow-sm">
                                     <option value="Interviewer 1">Interviewer 1</option>
                                     <option value="Interviewer 2">Interviewer 2</option>
-                                    <option value="Interviewer 2">Interviewer 3</option>
-                                    <option value="Interviewer 2">Interviewer 4</option>
+                                    <option value="Interviewer 3">Interviewer 3</option>
+                                    <option value="Interviewer 4">Interviewer 4</option>
                                 </select>
                             </div>
                             <div class="mb-4">
@@ -69,7 +69,7 @@
                                 <textarea name="remarks" id="remarks" class="form-textarea rounded-md shadow-sm"></textarea>
                             </div>
                             <x-primary-button class="ml-3">
-                                    Create CV Status
+                                   submit
                             </x-primary-button>                                
                              
                             </div>

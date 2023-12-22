@@ -4,7 +4,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900">
                     {{ __("You're logged in!") }}
-
                     <div class="mt-4">
                         <x-primary-button class="ml-3">
                             <a href="{{ route('user_cv.create') }}" class="text-blue-500 hover:underline">Upload your

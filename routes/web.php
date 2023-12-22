@@ -35,7 +35,6 @@ require __DIR__ . '/auth.php';
 
 Route::get('/user-cv/create', [UserCVController::class, 'create'])->name('user_cv.create');
 Route::post('/user-cv/store', [UserCVController::class, 'store'])->name('user_cv.store');
-// Route::get('/user-cv', [UserCVController::class, 'index'])->name('user_cv.index');
 
 
 //admin accessible routes
