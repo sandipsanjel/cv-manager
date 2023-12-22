@@ -12,7 +12,7 @@ git clone https://github.com/sandipsanjel/cv-manager.git
 
 2. Install the dependencies:
   ```ruby
-cd CVManager
+cd cv-manager
 composer install
 ```
 
